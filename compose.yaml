@@ -1,25 +1,13 @@
 services:
-  semaphore:
+  dokuwiki:
+    image: dokuwiki/dokuwiki:stable # other tags: master, <date> or <codename>
+    user: "1000:1000" # adjust to your required user id
+    restart: unless-stopped
     ports:
-      - 4000:3000
-    image: semaphoreui/semaphore:latest
+      - "8080:8080" # internal port is 8080, map to what you need
     environment:
-      SEMAPHORE_DB_DIALECT: bolt
-      SEMAPHORE_ADMIN_PASSWORD: changeme
-      SEMAPHORE_ADMIN_NAME: admin
-      SEMAPHORE_ADMIN_EMAIL: admin@localhost
-      SEMAPHORE_ADMIN: admin
-
-  stirling-pdf:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-    ports:
-      - '8080:8080'
+      PHP_TIMEZONE: Europe/Berlin
+      #PHP_MEMORYLIMIT: 256M
+      #PHP_UPLOADLIMIT: 128M
     volumes:
-      - ./StirlingPDF/trainingData:/usr/share/tessdata # Required for extra OCR languages
-      - ./StirlingPDF/extraConfigs:/configs
-      - ./StirlingPDF/customFiles:/customFiles/
-      - ./StirlingPDF/logs:/logs/
-      - ./StirlingPDF/pipeline:/pipeline/
-    environment:
-      - DOCKER_ENABLE_SECURITY=false
-      - LANGS=de_DE
+      - ./storage:/storage
