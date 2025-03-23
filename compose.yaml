@@ -10,4 +10,4 @@ services:
       #PHP_MEMORYLIMIT: 256M
       #PHP_UPLOADLIMIT: 128M
     volumes:
-      - ./storage:/storage
+      - /home/christoph/dokuwiki/storage:/storage
